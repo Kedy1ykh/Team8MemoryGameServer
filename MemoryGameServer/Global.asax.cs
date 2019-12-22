@@ -16,6 +16,11 @@ namespace MemoryGameServer
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            HttpContext.Current.Application.Lock();
+            HttpContext.Current.Application["waitingList"] = new List<Person>();
+            HttpContext.Current.Application["matchList"] = new List<Match>();
+            HttpContext.Current.Application["gameList"] = new List<Game>();
+            HttpContext.Current.Application.UnLock();
         }
     }
 }
