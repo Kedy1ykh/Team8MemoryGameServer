@@ -61,7 +61,7 @@ namespace MemoryGameServer.Controllers
                 connection.Open();
 
                 string queryString = @"SELECT TOP 5 PlayerName, Time FROM Players" +
-                    " WHERE Time>0 ORDER BY Time";
+                    " WHERE Time>0 ORDER BY Time DESC";
                 SqlCommand command = new SqlCommand(queryString, connection);
                 SqlDataReader r = command.ExecuteReader();
 
