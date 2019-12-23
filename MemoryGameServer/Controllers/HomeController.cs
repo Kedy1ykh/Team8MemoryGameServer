@@ -132,19 +132,21 @@ namespace MemoryGameServer.Controllers
         }
         public JsonResult SetPerson()
         {
-            Person person = new Person();
+            
             List<Person> waitingList = (List<Person>)HttpContext.Application["waitingList"];
             
-            if (waitingList == null || waitingList.Count == 0)
+            /*if (waitingList == null || waitingList.Count == 0)
             {
                 person.name = "Guest1";
             }
             else
-            {
-                Person lastPerson = waitingList.LastOrDefault();
-                String indexLastPerson = lastPerson.name.Substring(5);
-                person.name = "Guest" + (Convert.ToInt32(indexLastPerson) + 1);
-            }
+            {*/
+            //Person lastPerson = waitingList.LastOrDefault();
+            //String indexLastPerson = lastPerson.name.Substring(5);
+            HttpContext.Application["userCounter"]= (int)HttpContext.Application["userCounter"]+1;
+            Person person = new Person();
+            person.name = "Guest" + ((int)HttpContext.Application["userCounter"]);
+           //}/**/
 
             if (person != null && person.name != null)
             {
@@ -222,13 +224,13 @@ namespace MemoryGameServer.Controllers
             {
                 return Json(new { status = "no person to remove" });
             }
-            //randomly get a person
+
             List<Person> waitingList = (List<Person>)HttpContext.Application["waitingList"];//value or reference?
             if (waitingList != null && waitingList.Count != 0 && person != null)
             {
                 foreach (Person p in waitingList)
                 {
-                    if (!person.name.Equals(p.name))
+                    if (person.name.Equals(p.name))
                     {
                         waitingList.Remove(p);
                         return Json(p, JsonRequestBehavior.AllowGet);
@@ -314,8 +316,24 @@ namespace MemoryGameServer.Controllers
                     }
                     else
                     {
-                        return Json(g.winner, JsonRequestBehavior.AllowGet);
+                        Person winner = g.winner;
+                        return Json(winner, JsonRequestBehavior.AllowGet);
                     }
+                }
+            }
+            return Json(new { status = "fail" });
+        }
+        public JsonResult RemoveGame(Person p)
+        {
+            //get the application variable gameList and matchlist
+            List<Game> gameList = (List<Game>)HttpContext.Application["gameList"];//reference         
+            //try to find the person in the gamelist: if found true; else false
+            foreach (Game g in gameList)
+            {
+                if (g.match.Player1.Equals(p) || g.match.Player2.Equals(p))
+                {
+                    gameList.Remove(g);
+                    return Json(new { status = "GameRemoved" });
                 }
             }
             return Json(new { status = "fail" });

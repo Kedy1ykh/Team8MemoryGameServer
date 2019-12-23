@@ -21,6 +21,7 @@ namespace MemoryGameServer
             HttpContext.Current.Application["waitingList"] = new List<Person>();
             HttpContext.Current.Application["matchList"] = new List<Match>();
             HttpContext.Current.Application["gameList"] = new List<Game>();
+            HttpContext.Current.Application["userCounter"] = 0;
             HttpContext.Current.Application.UnLock();
         }
     }
