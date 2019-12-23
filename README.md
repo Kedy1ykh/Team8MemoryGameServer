@@ -4,3 +4,4 @@
   * Open Home Controller
   * find const string CONNECTION_STRING
   * Change "Server= DESKTOP-C94M5QS;" to "Server= \<your local machine \>" OR "Server= .;"
+  * Copy your local ~\bin\roslyn\csc.exe (folder) to your new \%UserProfile\%\source\repos\MemoryGameServer\...
